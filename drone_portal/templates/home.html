@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Home | Drone Routing Simulation Portal{% endblock %}
+{% block crumb %}Home{% endblock %}
+
+{% block content %}
+<h2 class="page">Welcome to the Drone Routing Simulator</h2>
+
+<div class="msgbox info">
+    This is an open, browser-based sandbox for the
+    <strong>Multi-Agent Drone Routing Simulator</strong>. Anyone can configure a
+    city grid, a drone fleet and a set of delivery requests, then run the routing
+    engine to obtain a validated Flight Manifest and watch it play out.
+</div>
+
+<h3 class="sect">About the System</h3>
+<p>
+    Urban logistics increasingly rely on autonomous drone fleets operating under
+    complex, time-varying airspace regulations. No-Fly Zones (NFZs) activate and
+    deactivate around scheduled events, convoys and construction works. This
+    system assigns and routes a fleet of <em>N</em> drones from a central
+    warehouse to complete <em>M</em> deliveries while respecting battery limits,
+    payload capacities, delivery deadlines and dynamic airspace restrictions.
+</p>
+
+<h3 class="sect">Key Capabilities</h3>
+<table class="grid">
+    <tr><th style="width:180px">Module</th><th>Description</th></tr>
+    <tr><td>Fleet Assignment</td>
+        <td>Distributes delivery requests across available drones by payload and deadline.</td></tr>
+    <tr class="alt"><td>Temporal NFZ Avoidance</td>
+        <td>Routes around or waits out circular and rectangular No-Fly Zones.</td></tr>
+    <tr><td>Energy &amp; Charging</td>
+        <td>Tracks battery consumption and schedules charging-station usage.</td></tr>
+    <tr class="alt"><td>Flight Manifest</td>
+        <td>Produces a validated, timestamped manifest for every drone.</td></tr>
+    <tr><td>Visualisation</td>
+        <td>Animates drone routes, battery and payload on an HTML5 grid.</td></tr>
+</table>
+
+<h3 class="sect">Get Started</h3>
+<p>
+    Proceed to the
+    <a href="{{ url_for('simulation') }}">Simulation Portal</a> to enter inputs
+    manually or upload a JSON configuration file, then execute the routing
+    engine. For background information, see the
+    <a href="{{ url_for('overview') }}">Problem Overview</a> and the
+    <a href="{{ url_for('documentation') }}">Documentation</a>.
+</p>
+
+<table class="grid" style="margin-top:14px">
+    <tr><th colspan="2">What You Can Do Here</th></tr>
+    <tr><td style="width:150px">Build a scenario</td>
+        <td>Set the map size, add drones, deliveries, charging stations and No-Fly Zones.</td></tr>
+    <tr class="alt"><td>Import &amp; export</td>
+        <td>Upload or paste a JSON configuration, or generate one from the form.</td></tr>
+    <tr><td>Watch it run</td>
+        <td>Animated route playback with battery, payload and a live simulation log.</td></tr>
+    <tr class="alt"><td>Read the results</td>
+        <td>Inspect the full Flight Manifest, performance summary and score.</td></tr>
+</table>
+
+<p class="small-muted" style="margin-top:10px">
+    This is an open, non-commercial project made for learning and
+    experimentation. It is not affiliated with any company or authority.
+</p>
+{% endblock %}

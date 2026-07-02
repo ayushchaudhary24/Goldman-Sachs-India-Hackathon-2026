@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}Simulation Portal | Drone Routing Simulation Portal{% endblock %}
+{% block crumb %}Simulation Portal{% endblock %}
+
+{% block leftextra %}
+<div class="note">
+    <strong>Sample Inputs:</strong><br>
+    <a href="#" id="loadSample0">Load Sample 0</a><br>
+    <a href="#" id="loadSample1">Load Sample 1</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<h2 class="page">Simulation Portal</h2>
+
+<div id="alertArea"></div>
+
+<!-- ================= INPUT FORM ================= -->
+<a name="inputjson"></a>
+<h3 class="sect">A. Configure Simulation Inputs</h3>
+
+<fieldset>
+    <legend>Map</legend>
+    <table class="form">
+        <tr>
+            <td class="label">Map Width</td>
+            <td><input type="number" id="mapW" value="100" min="1"></td>
+            <td class="label">Map Height</td>
+            <td><input type="number" id="mapH" value="100" min="1"></td>
+        </tr>
+        <tr>
+            <td class="label">Warehouse</td>
+            <td colspan="3" class="small-muted mono" id="whInfo">(50, 50) &mdash; auto, centre of map</td>
+        </tr>
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>Drone Configuration</legend>
+    <table class="grid" id="droneTable">
+        <tr><th>Drone ID</th><th>Max Payload</th><th style="width:60px">Action</th></tr>
+    </table>
+    <input type="button" class="btn small" id="addDrone" value="+ Add Drone">
+</fieldset>
+
+<fieldset>
+    <legend>Deliveries</legend>
+    <table class="grid" id="deliveryTable">
+        <tr><th>ID</th><th>X</th><th>Y</th><th>Weight</th><th>Deadline</th>
+            <th style="width:60px">Action</th></tr>
+    </table>
+    <input type="button" class="btn small" id="addDelivery" value="+ Add Delivery">
+</fieldset>
+
+<fieldset>
+    <legend>Charging Stations</legend>
+    <table class="grid" id="stationTable">
+        <tr><th>X</th><th>Y</th><th>Slots</th><th style="width:60px">Action</th></tr>
+    </table>
+    <input type="button" class="btn small" id="addStation" value="+ Add Charging Station">
+</fieldset>
+
+<fieldset>
+    <legend>No-Fly Zones</legend>
+    <table class="grid" id="nfzTable">
+        <tr>
+            <th>Shape</th><th>Circle: Center X,Y / Radius</th>
+            <th>Rectangle: Corner1 / Corner2</th>
+            <th>T_start</th><th>T_end</th><th style="width:60px">Action</th>
+        </tr>
+    </table>
+    <input type="button" class="btn small" id="addNfz" value="+ Add No-Fly Zone">
+    <p class="small-muted">
+        For a circle, fill Center X, Center Y and Radius. For a rectangle, fill
+        the two corner coordinate pairs. The unused fields are ignored.
+    </p>
+</fieldset>
+
+<!-- ================= JSON UPLOAD / GENERATE ================= -->
+<h3 class="sect">B. Upload or Generate JSON</h3>
+<fieldset>
+    <legend>Input JSON</legend>
+    <table class="form">
+        <tr>
+            <td class="label">Upload File</td>
+            <td><input type="file" id="jsonFile" accept=".json,application/json"></td>
+            <td>
+                <input type="button" class="btn small" id="loadFromText"
+                       value="Apply JSON to Form">
+                <input type="button" class="btn small" id="genJson"
+                       value="Generate JSON from Form">
+            </td>
+        </tr>
+    </table>
+    <textarea id="jsonText" spellcheck="false"
+              placeholder="Paste or upload a JSON input file here, or press 'Generate JSON from Form'."></textarea>
+</fieldset>
+
+<!-- ================= ACTION BUTTONS ================= -->
+<p>
+    <input type="button" class="btn primary" id="runBtn" value="Run Simulation">
+    <input type="button" class="btn" id="resetBtn" value="Reset">
+    <span id="runStatus" class="spinner"></span>
+</p>
+
+<hr class="sep">
+
+<!-- ================= VISUALISATION + LOG ================= -->
+<a name="output"></a>
+<h3 class="sect">C. Route Visualisation &amp; Simulation Log</h3>
+
+<table style="width:100%; border-collapse:collapse">
+<tr valign="top">
+    <td style="width:640px; padding-right:8px">
+        <div id="canvasCol">
+            <canvas id="field" width="620" height="440"></canvas>
+            <div class="canvas-toolbar">
+                <input type="button" class="btn small" id="playBtn" value="Pause">
+                <input type="button" class="btn small" id="restartBtn" value="Restart">
+                Speed:
+                <input type="range" class="speed-slider" id="speed"
+                       min="1" max="60" value="12">
+                <span id="speedVal" class="mono">12x</span>
+                <span class="readout" id="clockReadout">t = 0.00</span>
+            </div>
+            <div class="hud" id="hud">
+                <span>SIM CLOCK: <b id="hudT">0.00</b></span>
+                <span>MAKESPAN: <b id="hudMax">0.00</b></span>
+            </div>
+            <div class="legend-box" id="legendBox">
+                <span><span class="swatch" style="background:#1a4a8b"></span>Warehouse</span>
+                <span><span class="swatch" style="background:#2f9e2f"></span>Charging Station</span>
+                <span><span class="swatch" style="background:#cc8800"></span>Delivery (pending)</span>
+                <span><span class="swatch" style="background:#888888"></span>Delivery (done)</span>
+                <span><span class="swatch" style="background:#cc0000"></span>Active NFZ</span>
+                <span><span class="swatch" style="background:#e8b4b4"></span>Inactive NFZ</span>
+            </div>
+        </div>
+    </td>
+    <td>
+        <strong style="font-size:12px; color:#234a1f">Simulation Log</strong>
+        <div id="logPanel">
+            <table>
+                <thead>
+                    <tr><th style="width:46px">Time</th><th style="width:60px">Drone</th>
+                        <th>Action / Status</th></tr>
+                </thead>
+                <tbody id="logBody">
+                    <tr><td colspan="3" class="small-muted">No simulation run yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </td>
+</tr>
+</table>
+
+<hr class="sep">
+
+<!-- ================= FLIGHT MANIFEST ================= -->
+<h3 class="sect">D. Flight Manifest</h3>
+<div id="manifestArea">
+    <p class="small-muted">Run a simulation to populate the Flight Manifest.</p>
+</div>
+
+<hr class="sep">
+
+<!-- ================= STATISTICS ================= -->
+<a name="stats"></a>
+<h3 class="sect">E. Performance Summary &amp; Statistics</h3>
+<div id="statsArea">
+    <p class="small-muted">Run a simulation to populate statistics.</p>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/form.js') }}"></script>
+<script src="{{ url_for('static', filename='js/visualize.js') }}"></script>
+<script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+{% endblock %}

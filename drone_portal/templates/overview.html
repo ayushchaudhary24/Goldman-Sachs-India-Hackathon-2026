@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Problem Overview | Drone Routing Simulation Portal{% endblock %}
+{% block crumb %}Problem Overview{% endblock %}
+
+{% block content %}
+<h2 class="page">Problem Overview</h2>
+
+<h3 class="sect">1. Background</h3>
+<p>
+    In the year 2026, urban logistics have fully transitioned to autonomous
+    drone fleets. City regulations have grown increasingly complex: No-Fly Zones
+    are now dynamic areas (around scheduled stadium events, VIP convoys or
+    construction sites) that activate and deactivate at specific times. The
+    objective is a routing engine that manages a fleet of drones to deliver
+    packages while navigating these shifting constraints and optimising limited
+    battery life.
+</p>
+
+<h3 class="sect">2. Problem Statement</h3>
+<ul class="bullets">
+    <li>Drones start at the warehouse, at the centre of the map:
+        (map_size[0] / 2, map_size[1] / 2).</li>
+    <li>Each drone may carry multiple packages per trip, provided total weight
+        does not exceed its <span class="mono">max_payload</span>.</li>
+    <li>After deliveries, a drone must return to the warehouse or a charging
+        station; mid-air stops are prohibited.</li>
+    <li>All distances are Euclidean; drones fly straight lines between path points.</li>
+    <li>Drones do not collide; multiple drones may occupy the same coordinate.</li>
+</ul>
+
+<h3 class="sect">3. Fixed Constants</h3>
+<table class="grid">
+    <tr><th>Quantity</th><th>Value</th></tr>
+    <tr><td>Drone speed</td><td>1 distance unit per timestep</td></tr>
+    <tr class="alt"><td>Battery capacity</td><td>500 energy units (full at start)</td></tr>
+    <tr><td>Charge rate</td><td>2 energy units per timestep</td></tr>
+</table>
+
+<h3 class="sect">4. Energy Model</h3>
+<p>
+    Energy consumed per leg is
+    <span class="mono">E_leg = distance &times; (1 + current_payload_weight)</span>.
+    Payload decreases after each delivery, reducing the cost of later legs.
+    Battery must always remain greater than or equal to zero.
+</p>
+
+<h3 class="sect">5. No-Fly Zones</h3>
+<ul class="bullets">
+    <li>Circular or rectangular areas with a time window
+        [<span class="mono">T_start</span>, <span class="mono">T_end</span>].</li>
+    <li>A drone may not enter or pass through an NFZ while it is active.</li>
+    <li>If a path is blocked, the drone waits at its current location
+        (no battery is consumed while waiting).</li>
+</ul>
+
+<h3 class="sect">6. Scoring</h3>
+<div class="msgbox info mono">
+    raw_score = (successful_deliveries &times; 100)
+    &minus; (total_energy &times; 0.1)
+    &minus; (makespan &times; 0.05)
+</div>
+<p>
+    A delivery counts only if the drone arrives at the exact delivery coordinates
+    on or before the deadline, with no constraint violations. Invalid solutions
+    score zero. Higher scores are better.
+</p>
+
+<h3 class="sect">7. Action Types</h3>
+<table class="grid">
+    <tr><th style="width:150px">Action</th><th>Meaning</th></tr>
+    <tr><td class="mono">PICKUP</td><td>Picks up packages at the warehouse (includes delivery_ids).</td></tr>
+    <tr class="alt"><td class="mono">DELIVER</td><td>Delivers a single package (includes delivery_id).</td></tr>
+    <tr><td class="mono">CHARGE</td><td>Arrives at a charging station to recharge.</td></tr>
+    <tr class="alt"><td class="mono">CHARGE_COMPLETE</td><td>Finishes charging and departs.</td></tr>
+    <tr><td class="mono">WAIT</td><td>Waits in place for an NFZ to deactivate.</td></tr>
+    <tr class="alt"><td class="mono">WAYPOINT</td><td>Intermediate navigation point.</td></tr>
+    <tr><td class="mono">RETURN</td><td>Returns to warehouse or charging station (end of trip).</td></tr>
+</table>
+{% endblock %}

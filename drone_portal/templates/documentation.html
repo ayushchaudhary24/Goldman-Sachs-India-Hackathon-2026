@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Documentation | Drone Routing Simulation Portal{% endblock %}
+{% block crumb %}Documentation{% endblock %}
+
+{% block content %}
+<h2 class="page">Documentation</h2>
+
+<h3 class="sect">1. Purpose</h3>
+<p>
+    This portal is a thin presentation layer over an existing routing engine.
+    The engine is treated strictly as a black box. The website collects inputs,
+    submits them to the engine, and renders the returned Flight Manifest. No
+    statistic, score, route or battery value displayed is fabricated &mdash; all
+    are derived from the engine's own output.
+</p>
+
+<h3 class="sect">2. Input JSON Format</h3>
+<div class="msgbox info mono" style="white-space:pre">
+{
+  "map_size": [Width, Height],
+  "drones": [
+    {"id": "drone_1", "max_payload": 1.0}
+  ],
+  "deliveries": [
+    {"id": "d1", "x": 20, "y": 30, "weight": 0.3, "deadline": 200}
+  ],
+  "charging_stations": [
+    {"x": 50, "y": 50, "slots": 2}
+  ],
+  "no_fly_zones": [
+    {"shape": "circle", "center": [80,80], "radius": 15,
+     "T_start": 0, "T_end": 150},
+    {"shape": "rectangle", "corners": [[120,120],[140,160]],
+     "T_start": 50, "T_end": 300}
+  ]
+}
+</div>
+
+<h3 class="sect">3. Output Flight Manifest</h3>
+<p>
+    The engine returns a JSON object with a
+    <span class="mono">flight_manifest</span> array. Each entry has a
+    <span class="mono">drone_id</span> and a <span class="mono">path</span> of
+    timestamped steps. The first step of each path is a
+    <span class="mono">PICKUP</span> and the last is a
+    <span class="mono">RETURN</span>.
+</p>
+
+<h3 class="sect">4. Using the Simulation Portal</h3>
+<table class="grid">
+    <tr><th style="width:30px">#</th><th>Step</th></tr>
+    <tr><td>1</td><td>Enter the map size, drones, deliveries, charging stations and No-Fly Zones in the form, OR upload a JSON file.</td></tr>
+    <tr class="alt"><td>2</td><td>Optionally press "Generate JSON from Form" to review the assembled input.</td></tr>
+    <tr><td>3</td><td>Press "Run Simulation". The input is validated and sent to the routing engine.</td></tr>
+    <tr class="alt"><td>4</td><td>Inspect the animated route, the simulation log, the Flight Manifest table and the statistics.</td></tr>
+</table>
+
+<h3 class="sect">5. Validation Rules</h3>
+<ul class="bullets">
+    <li>Map dimensions must be positive numbers.</li>
+    <li>Every drone must have a unique id and a positive max payload.</li>
+    <li>Delivery coordinates must be non-negative; weight and deadline positive.</li>
+    <li>No-Fly Zones must specify a valid shape with the matching geometry fields.</li>
+    <li>Uploaded JSON must be well formed; malformed JSON is rejected with an alert.</li>
+</ul>
+
+<h3 class="sect">6. Local Deployment</h3>
+<div class="msgbox info mono" style="white-space:pre">
+pip install -r requirements.txt
+python app.py
+# then open http://127.0.0.1:5000/
+</div>
+<p class="small-muted">
+    The routing engine resides at <span class="mono">solver/score62.py</span>
+    and is invoked as a subprocess. It is never modified by the portal.
+</p>
+{% endblock %}

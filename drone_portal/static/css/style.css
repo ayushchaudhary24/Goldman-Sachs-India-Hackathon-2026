@@ -1,0 +1,341 @@
+/* ==========================================================================
+   Multi-Agent Drone Routing Simulator
+   style.css  --  classic fixed-width portal look
+   --------------------------------------------------------------------------
+   Deliberately old-fashioned: fixed-width layout, gradient header,
+   gray borders, table layouts, Arial, minimal shadows.  No modern cards,
+   no glassmorphism, no rounded UI, no framework defaults.
+   ========================================================================== */
+
+* { margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #222222;
+    background: #e4e4e4 url('../images/bgtile.png') repeat;
+    line-height: 1.45;
+}
+
+a { color: #15428b; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- fixed width page wrapper ---------------------------------------- */
+#wrapper {
+    width: 980px;
+    margin: 8px auto;
+    background: #ffffff;
+    border: 1px solid #8a8a8a;
+}
+
+/* ---- top utility bar -------------------------------------------------- */
+#topbar {
+    background: #21304a;
+    color: #c9d4e6;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-bottom: 1px solid #000000;
+}
+#topbar a { color: #ffffff; }
+#topbar .right { float: right; }
+#topbar:after { content: ""; display: block; clear: both; }
+
+/* ---- header banner with blue gradient -------------------------------- */
+#header {
+    background: #1a4a8b;
+    background: linear-gradient(to bottom, #2f6cc0 0%, #1a4a8b 55%, #143c73 100%);
+    border-bottom: 3px solid #c79a3a;
+    padding: 10px 12px;
+    color: #ffffff;
+}
+#header:after { content: ""; display: block; clear: both; }
+
+#header .logo {
+    float: left;
+    width: 54px; height: 54px;
+    margin-right: 12px;
+    border: 1px solid #0d2c57;
+    background: #ffffff;
+}
+#header .titles { float: left; padding-top: 2px; }
+#header h1 {
+    font-size: 19px;
+    font-weight: bold;
+    letter-spacing: .2px;
+    text-shadow: 1px 1px 0 #0c2851;
+}
+#header h2 {
+    font-size: 12px;
+    font-weight: normal;
+    color: #d7e3f5;
+    margin-top: 2px;
+}
+#header .meta {
+    float: right;
+    text-align: right;
+    font-size: 11px;
+    color: #d7e3f5;
+    padding-top: 6px;
+}
+#header .meta strong { color: #ffe9b0; font-size: 12px; }
+
+/* ---- navigation menu -------------------------------------------------- */
+#nav {
+    background: #345d33;
+    background: linear-gradient(to bottom, #3f7a3d 0%, #2f5a2e 100%);
+    border-top: 1px solid #5a9a57;
+    border-bottom: 1px solid #1d3a1c;
+}
+#nav ul { list-style: none; }
+#nav li { display: inline-block; }
+#nav li a {
+    display: block;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-right: 1px solid #28491f;
+}
+#nav li a:hover { background: #2a4f29; text-decoration: none; }
+#nav li a.current { background: #d9e6c8; color: #234a1f; }
+
+/* ---- breadcrumb ------------------------------------------------------- */
+#crumbs {
+    background: #f1f1f1;
+    border-bottom: 1px solid #cccccc;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: #555555;
+}
+
+/* ---- main two-column content ----------------------------------------- */
+#main { }
+#main:after { content: ""; display: block; clear: both; }
+
+#left {
+    float: left;
+    width: 180px;
+    border-right: 1px solid #c0c0c0;
+    background: #f6f6f6;
+    min-height: 420px;
+}
+#left h3 {
+    background: #1a4a8b;
+    background: linear-gradient(to bottom, #3567ac, #1a4a8b);
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 8px;
+}
+#left ul { list-style: none; }
+#left li a {
+    display: block;
+    padding: 5px 10px;
+    border-bottom: 1px solid #dddddd;
+    color: #15428b;
+    font-size: 11px;
+}
+#left li a:hover { background: #e8eef7; text-decoration: none; }
+#left .note {
+    padding: 8px;
+    font-size: 11px;
+    color: #555555;
+    border-top: 1px solid #cccccc;
+    background: #fbfbe8;
+}
+
+#content {
+    margin-left: 180px;
+    padding: 12px 14px;
+    border-left: 1px solid #c0c0c0;
+}
+
+/* ---- generic headings & text ----------------------------------------- */
+h2.page { font-size: 16px; color: #143c73; border-bottom: 2px solid #1a4a8b;
+          padding-bottom: 4px; margin-bottom: 10px; }
+h3.sect { font-size: 13px; color: #234a1f; margin: 14px 0 6px;
+          border-bottom: 1px solid #cccccc; padding-bottom: 2px; }
+p { margin-bottom: 8px; }
+ul.bullets { margin: 6px 0 10px 22px; }
+ul.bullets li { margin-bottom: 3px; }
+
+/* ---- classic blue-header tables -------------------------------------- */
+table.grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 12px;
+}
+table.grid th {
+    background: #1a4a8b;
+    background: linear-gradient(to bottom, #3567ac, #1a4a8b);
+    color: #ffffff;
+    font-size: 11px;
+    text-align: left;
+    padding: 4px 6px;
+    border: 1px solid #143c73;
+}
+table.grid td {
+    border: 1px solid #bcbcbc;
+    padding: 3px 6px;
+    font-size: 11px;
+    background: #ffffff;
+}
+table.grid tr.alt td { background: #eef3fa; }
+table.grid td.num { text-align: right; }
+table.grid caption {
+    text-align: left; font-weight: bold; color: #143c73;
+    padding: 3px 0; font-size: 12px;
+}
+
+/* ---- form layout tables ---------------------------------------------- */
+table.form { width: 100%; border-collapse: collapse; }
+table.form td { padding: 3px 5px; vertical-align: top; font-size: 11px; }
+table.form td.label { width: 120px; color: #333333; font-weight: bold; }
+
+fieldset {
+    border: 1px solid #9bbce0;
+    margin: 10px 0;
+    padding: 8px 10px;
+    background: #f7faff;
+}
+legend {
+    font-weight: bold;
+    color: #143c73;
+    background: #dfeaf8;
+    border: 1px solid #9bbce0;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+input[type=text], input[type=number], textarea, select {
+    border: 1px solid #7f9db9;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    padding: 2px 3px;
+}
+input[type=text], input[type=number] { width: 90px; }
+input.wide { width: 150px; }
+textarea { width: 100%; height: 180px; font-family: "Courier New", monospace; }
+
+/* ---- classic windows-style buttons ----------------------------------- */
+.btn {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #1c1c1c;
+    background: #f4f4f4;
+    background: linear-gradient(to bottom, #ffffff, #dcdcdc);
+    border: 1px solid #888888;
+    border-top-color: #cccccc;
+    border-left-color: #cccccc;
+    padding: 3px 12px;
+    cursor: pointer;
+}
+.btn:hover { background: linear-gradient(to bottom, #ffffff, #cfe0f3); }
+.btn:active { background: #cfcfcf; }
+.btn.primary {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #4f86c6, #1a4a8b);
+    border-color: #143c73;
+}
+.btn.primary:hover { background: linear-gradient(to bottom, #5f96d6, #225aa0); }
+.btn.small { padding: 1px 7px; font-size: 10px; font-weight: normal; }
+.btn.danger { color: #7a1010; }
+
+/* ---- alert / message boxes (old style) ------------------------------- */
+.msgbox {
+    border: 1px solid #999999;
+    padding: 6px 10px;
+    margin: 8px 0;
+    font-size: 11px;
+}
+.msgbox.error   { border-color: #b00000; background: #ffecec; color: #7a0000; }
+.msgbox.ok      { border-color: #2f7a2f; background: #ecffec; color: #1c4d1c; }
+.msgbox.info    { border-color: #1a4a8b; background: #eef3fa; color: #143c73; }
+.msgbox.warn    { border-color: #b07b00; background: #fff6e0; color: #7a5500; }
+.msgbox ul { margin-left: 18px; }
+
+/* ---- footer ----------------------------------------------------------- */
+#footer {
+    clear: both;
+    background: #21304a;
+    color: #c9d4e6;
+    font-size: 11px;
+    text-align: center;
+    padding: 8px 10px;
+    border-top: 3px solid #c79a3a;
+}
+#footer a { color: #ffffff; }
+
+/* ---- simulation portal specific -------------------------------------- */
+.portal-row:after { content: ""; display: block; clear: both; }
+
+#canvasCol { }
+canvas#field {
+    border: 2px solid #555555;
+    background: #ffffff;
+    display: block;
+}
+.canvas-toolbar {
+    background: #ececec;
+    border: 1px solid #aaaaaa;
+    border-top: none;
+    padding: 4px 6px;
+    font-size: 11px;
+}
+.canvas-toolbar .readout {
+    float: right;
+    font-family: "Courier New", monospace;
+    color: #143c73;
+}
+
+.hud {
+    border: 1px solid #888888;
+    background: #f4f8e8;
+    padding: 4px 8px;
+    font-size: 11px;
+    margin-top: 6px;
+    font-family: "Courier New", monospace;
+}
+.hud span { display: inline-block; margin-right: 14px; }
+
+/* right-side log panel */
+#logPanel {
+    border: 1px solid #888888;
+    height: 360px;
+    overflow-y: scroll;
+    background: #ffffff;
+}
+#logPanel table { width: 100%; border-collapse: collapse; }
+#logPanel th {
+    position: sticky; top: 0;
+    background: #345d33;
+    color: #ffffff; font-size: 10px; text-align: left;
+    padding: 3px 5px;
+}
+#logPanel td { border-bottom: 1px solid #e0e0e0; padding: 2px 5px; font-size: 10px; }
+
+.legend-box { font-size: 10px; margin-top: 6px; }
+.legend-box span { display: inline-block; margin-right: 10px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border: 1px solid #555;
+          vertical-align: middle; margin-right: 3px; }
+
+/* statistics summary cells */
+.statgrid { width: 100%; border-collapse: collapse; }
+.statgrid td {
+    border: 1px solid #bcbcbc; padding: 6px 8px; width: 25%;
+    background: #f7faff; vertical-align: top;
+}
+.statgrid .big { font-size: 18px; font-weight: bold; color: #143c73; }
+.statgrid .cap { font-size: 10px; color: #555555; text-transform: uppercase; }
+
+.speed-slider { vertical-align: middle; }
+
+.spinner { font-size: 11px; color: #7a5500; }
+
+hr.sep { border: none; border-top: 1px solid #cccccc; margin: 10px 0; }
+
+.small-muted { font-size: 10px; color: #777777; }
+.mono { font-family: "Courier New", monospace; }
+.center { text-align: center; }
+.right { text-align: right; }

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}About | Drone Routing Simulation Portal{% endblock %}
+{% block crumb %}About{% endblock %}
+
+{% block content %}
+<h2 class="page">About</h2>
+
+<h3 class="sect">The Project</h3>
+<p>
+    The Multi-Agent Drone Routing Simulator is an open, browser-based sandbox for
+    autonomous urban logistics. It models a city as a two-dimensional grid and
+    routes a fleet of delivery drones from a central warehouse under battery,
+    payload, deadline and dynamic airspace constraints. It is a learning and
+    experimentation tool, free for anyone to use.
+</p>
+
+<h3 class="sect">Architecture</h3>
+<table class="grid">
+    <tr><th style="width:160px">Layer</th><th>Technology</th></tr>
+    <tr><td>Presentation</td><td>HTML, CSS, Vanilla JavaScript, HTML5 Canvas</td></tr>
+    <tr class="alt"><td>Application</td><td>Python Flask</td></tr>
+    <tr><td>Computation Engine</td><td>Existing Python routing solver (black box)</td></tr>
+</table>
+
+<p>
+    The presentation layer never performs routing of its own. It assembles the
+    input, hands it to the engine, and faithfully replays the returned manifest
+    for visualisation and statistics.
+</p>
+
+<h3 class="sect">About This Project</h3>
+<div class="msgbox info">
+    This is an open, non-commercial project built for learning and
+    experimentation. It is not affiliated with, endorsed by, or operated on
+    behalf of any company, organisation or government authority. Any place names,
+    scenarios or sample data are fictional and used only to illustrate the
+    routing problem.
+</div>
+
+<h3 class="sect">Using &amp; Sharing</h3>
+<p>
+    You are free to use the simulator, load your own scenarios and study the
+    output. There is no sign-up and no support desk &mdash; the
+    <a href="{{ url_for('documentation') }}">Documentation</a> and
+    <a href="{{ url_for('overview') }}">Problem Overview</a> pages explain
+    everything you need to run a simulation and read the results.
+</p>
+
+{% endblock %}

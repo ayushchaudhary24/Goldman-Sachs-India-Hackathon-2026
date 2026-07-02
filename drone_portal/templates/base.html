@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+  Multi-Agent Drone Routing Simulator
+  Base layout template.
+  Every page extends this layout via Jinja blocks.
+-->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=980">
+    <title>{% block title %}Drone Routing Simulation Portal{% endblock %}</title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+<div id="wrapper">
+
+    <!-- utility top bar -->
+    <div id="topbar">
+        Open Drone Simulation Sandbox
+        <span class="right">
+            Screen Reader Access |
+            <a href="#content">Skip to Main Content</a> | A- A A+
+        </span>
+    </div>
+
+    <!-- header banner -->
+    <div id="header">
+        <img class="logo"
+             src="{{ url_for('static', filename='images/logo.png') }}"
+             alt="Drone simulator logo" width="54" height="54">
+        <div class="titles">
+            <h1>Multi-Agent Drone Routing Simulator</h1>
+            <h2>An open sandbox for autonomous urban delivery routing</h2>
+        </div>
+        <div class="meta">
+            <strong>Free &amp; open to use</strong><br>
+            Runs in your browser<br>
+            No account required
+        </div>
+    </div>
+
+    <!-- top navigation menu -->
+    <div id="nav">
+        <ul>
+            <li><a href="{{ url_for('home') }}"
+                   class="{{ 'current' if active=='home' }}">Home</a></li>
+            <li><a href="{{ url_for('overview') }}"
+                   class="{{ 'current' if active=='overview' }}">Problem Overview</a></li>
+            <li><a href="{{ url_for('simulation') }}"
+                   class="{{ 'current' if active=='simulation' }}">Simulation Portal</a></li>
+            <li><a href="{{ url_for('documentation') }}"
+                   class="{{ 'current' if active=='documentation' }}">Documentation</a></li>
+            <li><a href="{{ url_for('about') }}"
+                   class="{{ 'current' if active=='about' }}">About</a></li>
+        </ul>
+    </div>
+
+    <!-- breadcrumb -->
+    <div id="crumbs">
+        Home &raquo; {% block crumb %}{{ active|capitalize }}{% endblock %}
+    </div>
+
+    <!-- main two-column body -->
+    <div id="main">
+        <div id="left">
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('overview') }}">Problem Overview</a></li>
+                <li><a href="{{ url_for('simulation') }}">Simulation Portal</a></li>
+                <li><a href="{{ url_for('simulation') }}#inputjson">Input JSON</a></li>
+                <li><a href="{{ url_for('simulation') }}#output">Output Manifest</a></li>
+                <li><a href="{{ url_for('simulation') }}#stats">Statistics</a></li>
+                <li><a href="{{ url_for('documentation') }}">Documentation</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+            <div class="note">
+                <strong>Open project</strong><br>
+                Free to use and modify<br><br>
+                <strong>Runs entirely</strong><br>
+                in a modern web browser
+            </div>
+            {% block leftextra %}{% endblock %}
+        </div>
+
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div id="footer">
+        Multi-Agent Drone Routing Simulator &mdash; an open, non-commercial
+        project for experimenting with drone delivery routing.<br>
+        Not affiliated with any company or authority. &nbsp;|&nbsp;
+        <a href="{{ url_for('documentation') }}">Documentation</a> &nbsp;|&nbsp;
+        <a href="{{ url_for('overview') }}">Problem Overview</a> &nbsp;|&nbsp;
+        <a href="{{ url_for('about') }}">About</a>
+    </div>
+
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>
